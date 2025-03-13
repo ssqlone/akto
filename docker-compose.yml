@@ -1,7 +1,4 @@
-version: '3.3'
-
 services:
-  
   akto-mongo:
     container_name: akto-mongo
     image: mongo:6.0.1
@@ -21,11 +18,10 @@ services:
       - akto-network
       - proxy
     env_file: ./docker.env
-    restart: always
     expose: 
       - 8080
     depends_on:
-      - mongo
+      - akto-mongo
     
   akto-api-security-testing:
     image: aktosecurity/akto-api-testing:local
@@ -35,9 +31,7 @@ services:
       - akto-network
     env_file: ./docker.env
     depends_on:
-      - mongo    
-    restart: always
-
+      - akto-mongo    
   akto-puppeteer-replay:
     image: aktosecurity/akto-puppeteer-replay:latest
     container_name: akto-replay
@@ -46,8 +40,6 @@ services:
       - akto-network
     expose:
       - 3000
-    restart: always
-
 volumes:
   akto-mongodb:
 networks:
